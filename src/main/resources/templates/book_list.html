@@ -3,16 +3,13 @@
     <head>
         <title>Books</title>
         <meta charset="UTF-8"></meta>
-        <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.css" rel="stylesheet"></link>
-        <style>
-         table, tr, td { border: 1px solid black; border-collapse: collapse; min-width: 100px; }
-        </style>
+        <link href="/bootstrap.css" rel="stylesheet"></link>
     </head>
     <body>
 
         <div class="container">
             <!--freemarker-->
-            <table class="table table-bg table-hover table-dark table-striped">
+            <table class="table table-dark table-striped table-hover">
                 <thead>
                     <tr>
                         <td>编号</td>
@@ -29,7 +26,7 @@
                 </tr>
             </table>
 
-            <a type="button" href="/book/add" class="btn btn-default">添加书籍</a>
+            <a href="/book/add" class="btn btn-primary">添加书籍</a>
         </div>
     </body>
 </html>
