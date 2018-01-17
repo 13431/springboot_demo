@@ -8,34 +8,36 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/book")
 public class BookController {
 
     @Autowired
-    BookDAO bookDAO = null;
+    private BookDAO bookDAO;
 
-    @GetMapping("/index")
+    @GetMapping("/list")
     public String listAll(Model model) {
         model.addAttribute("books", bookDAO.findAll());
         return "book_list";
     }
 
-    @GetMapping("/book/add")
+    @GetMapping("/add")
     public String addBook() {
         return "book_add";
     }
 
-    @PostMapping("/book/store")
+    @PostMapping("/store")
     public String addBook(Book book) {
         bookDAO.save(book);
-        return "redirect:/index";
+        return "redirect:list";
     }
 
-    @PostMapping("/book/delete")
-    public String deleBook(Long id) {
+    @PostMapping("/del")
+    public String deleteBook(Long id) {
         bookDAO.delete(id);
-        return "redirect:/index";
+        return "redirect:list";
     }
 
 }
