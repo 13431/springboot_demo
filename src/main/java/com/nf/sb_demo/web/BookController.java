@@ -34,7 +34,7 @@ public class BookController {
 
     @PostMapping("/book/delete")
     public String deleBook(Long id) {
-        bookDAO.deleteById(id);
+        bookDAO.delete(id);
         return "redirect:/index";
     }
 
