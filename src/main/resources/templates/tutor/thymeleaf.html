@@ -5,12 +5,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .eee {
+            background-color: red;
+        }
+        .ddd {
+            background-color: #80bdff;
+        }
+    </style>
 </head>
 <body>
 
-<div th:text="${content}" th:classappend="${class}" class="bushierror">
-    哈哈，我是内容。
-</div>
+<ul th:each="book : ${books}">
+    <li th:class="${bookStat.even ? 'eee' : 'ddd'}">
+        我的书籍: [(${book.name})], 它的价格 [[${book.price}]].
+    </li>
+</ul>
+
+
+<hr>
+<ul th:each="book : ${books}">
+   <li th:class="${bookStat.even ? 'eee' : 'ddd'}"
+       th:text="${bookStat.index+1} + '/' + ${bookStat.size} + '.   ' + ${book.name} + ' : ' + ${book.price}">书籍</li>
+</ul>
+
+<p th:each="book: ${books}" th:text="${book.name}">所有书名</p>
 
 </body>
 </html>

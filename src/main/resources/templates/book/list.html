@@ -1,34 +1,38 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-    <head>
-        <title>Books</title>
-        <meta charset="UTF-8">
-        <link th:href="@{/css/bootstrap.css}" href="../../static/css/bootstrap.css" rel="stylesheet">
-        <script>
-            console.log(999);
-        </script>
-    </head>
+<head>
+    <title th:text="#{site_title}"></title>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.css}" href="../../static/css/bootstrap.css" rel="stylesheet">
+    <script>
+        console.log(999);
+    </script>
+</head>
 
-    <body>
-        <div class="container">
-            <table class="table table-dark table-striped table-hover">
-                <thead>
-                    <tr>
-                        <td>编号</td>
-                        <td>书名</td>
-                        <td>价格</td>
-                        <td>操作</td>
-                    </tr>
-                </thead>
-                <tr th:each="book: ${books}">
-                    <td th:text="${book.id}">123</td>
-                    <td th:text="${book.name}">围城</td>
-                    <td th:text="${book.price}">321</td>
-                    <td><a href="#"> 删除</a></td>
-                </tr>
-            </table>
+<body>
 
-            <a th:href="@{/book/add}" class="btn btn-primary">添加书籍</a>
-        </div>
-    </body>
+<div class="container">
+    <h1 th:text="#{welcome}"></h1>
+
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+        <tr>
+            <td>编号</td>
+            <td>书名</td>
+            <td>价格</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tr th:each="book: ${books}">
+            <td th:text="${book.id}">123</td>
+            <td th:text="${book.name}">围城</td>
+            <td th:text="${book.price}">321</td>
+            <td><a th:href="@{/book/del(id=${book.id})}"
+                   onclick="if(!window.confirm('您是否确认要删除?')) event.preventDefault();"> 删除</a></td>
+        </tr>
+    </table>
+
+    <a th:href="@{/book/add}" class="btn btn-primary">添加书籍</a>
+</div>
+</body>
 </html>

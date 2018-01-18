@@ -44,7 +44,6 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", price=" + price +
                 '}';
     }
 }
