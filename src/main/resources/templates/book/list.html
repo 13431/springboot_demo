@@ -3,7 +3,7 @@
     <head>
         <title>Books</title>
         <meta charset="UTF-8">
-        <link th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css" rel="stylesheet">
+        <link th:href="@{/css/bootstrap.css}" href="../../static/css/bootstrap.css" rel="stylesheet">
         <script>
             console.log(999);
         </script>
@@ -28,7 +28,7 @@
                 </tr>
             </table>
 
-            <a href="/book/add" class="btn btn-primary">添加书籍</a>
+            <a th:href="@{/book/add}" class="btn btn-primary">添加书籍</a>
         </div>
     </body>
 </html>

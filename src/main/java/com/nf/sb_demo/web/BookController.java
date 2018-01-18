@@ -20,12 +20,12 @@ public class BookController {
     @GetMapping("/list")
     public String listAll(Model model) {
         model.addAttribute("books", bookDAO.findAll());
-        return "book_list";
+        return "book/list";
     }
 
     @GetMapping("/add")
     public String addBook() {
-        return "book_add";
+        return "book/add";
     }
 
     @PostMapping("/store")
