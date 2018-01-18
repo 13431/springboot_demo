@@ -1,0 +1,126 @@
+* Thymeleaf
+
+常用引擎技术:
+- Jsp;
+- Freemarker;
+- Velocity; 多年未更新，已落伍不推荐
+- Thymeleaf; 性能问题被诟病
+
+#+BEGIN_SRC html
+  <!-- 变量表达式 -->
+  <p th:text="${book.author.name}"> 变量 </p>
+  <p th:object="${book}"> <i th:text="*{title}"> 选择变量 </i> </p>
+  <a th:href="@{/book/del(id=${id})}"> 转换 URL </a>
+  <p th:text="#{header.address.country}"> 资源文件信息 </p>
+  <p th:fragment="~{layout::head}"> 模板表达式 </p>
+
+
+  <!-- 字面变量 -->
+  <p th:text="'My name is ' + ${name} + '!'">文字拼接</p>
+  <p th:text="|My name is ${name}!|">另一种写法</p>
+  <p th:text="'Type: ' + (${user.isAdmin()} ? 'Administrator' : (${user.type} ?: 'Unknown'))"></p>
+
+
+  <!-- 条件 -->
+  <p th:if="${age gt 30 and gender='male'}">中年男人</p>
+  <a th:unless=${session.user != null} th:href="@{/login}" >Login</a>
+  <input th:value="${age gt 30 ? '中年':'年轻'}"/>
+  <div th:switch="${age}"> <p th:case="29">奔三</p> <p th:case="*">其他年龄</p> </div>
+
+
+  <!-- 循环 -->
+  <tr th:each="o, oStat : ${datas}">
+    <td th:text="${o.name}">名称</td>
+    <td th:text="${o.url}">网址</td>
+    <td th:text="${oStat.size/index/count/current/odd/last}">size</td>
+  </tr>
+
+
+  <!-- 定义本地变量 -->
+  <div th:with="curPage=${#httpServletRequest.getParameter('page')}">
+    <h3>当前页码：<span th:text="${curPage}"></span></h3>
+  </div>
+
+
+  <!-- Spring -->
+  <!-- field/errors/errorclass/date -->
+  <form th:action="@{/book/add}" method="post" th:object="${book}">
+      <div th:if="${#fields.hasErrors('*')}">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+          <div th:each="err : ${#fields.errors('*')}" th:text="${err}"></div>
+          <div th:errors="*">这是上边输出语句的简化形式。</div>
+      </div>
+      <div>
+          <label>Name</label>
+          <input th:field="${name}" th:errorClass="err">
+          <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error</small>
+      </div>
+  </form>
+  <td th:text="${{sb.datePlanted}}">双括号进行类型转换(Conversion)</td>
+
+
+  <!-- 布局 -->
+  <!-- layout/layout.html -->
+  <html>
+    <head>
+      <meta charset="utf-8"/>
+      <title>demo</title>
+    </head>
+    <body>
+      <div layout:replace="components/header :: header"></div>
+      <div layout:fragment="content"></div>
+      <div layout:replace="components/footer :: footer"></div>
+    </body>
+  </html>
+  <!-- index.html -->
+  <html layout:decorate="layout/layout">
+    <head>...</head>
+    <body>
+      <div layout:fragment="content">
+        <h2>hello world!!!</h2>
+      </div>
+    </body>
+  </html>
+
+
+  <!-- 内置对象及方法 -->
+  <span th:text="${#dates.format(curDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+  <span th:text="${#numbers.formatDecimal(money, 0, 2)}"></span>
+  <span th:text="${#lists.size(datas)}"></span>
+  <span th:text="${#httpServletRequest.getParameter('page')}"></span>
+
+#+END_SRC
+
+内置对象列表:
+- ~#ctx/vars/locale~: the context object/var/locale.
+- ~#execInfo~: information about the template being processed.
+- ~#messages~: methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #{…} syntax.
+- ~#uris~: methods for escaping parts of URLs/URIs
+- ~#request/response/session/servletContext~: only in Web Contexts
+- ~#conversions~: methods for executing the configured conversion service (if any).
+- ~#numbers/strings/objects/bools/arrays/lists/sets/maps~: methods for formatting
+- ~#dates/calendars~: time util
+- ~#aggregates~: methods for creating aggregates on arrays or collections.
+- ~#ids~: methods for dealing with id attributes that might be repeated (for example, as a result of an iteration).
+
+
+在 springboot 中，如果出现错误:
+: 必须由匹配的结束标记 </meta>
+
+那么:
+#+BEGIN_QUOTE
+way1:
+: 增加： compile('net.sourceforge.nekohtml:nekohtml:1.9.22')
+: 然后，配置 spring.thymeleaf.mode=LEGACYHTML5
+
+way2:
+: 将 thymeleaf/thymeleaf-spring 换成 3 的版本
+
+way3:
+: 在 build.gradle 中增加下面代码覆盖默认版本:
+: ext['thymeleaf.version'] = '3.0.9.RELEASE'
+: ext['thymeleaf-layout-dialect.version'] = '2.2.2'
+
+way4:
+: 将 springboot 升级到 2
+#+END_QUOTE

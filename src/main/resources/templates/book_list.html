@@ -3,7 +3,7 @@
     <head>
         <title>Books</title>
         <meta charset="UTF-8">
-        <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+        <link th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css" rel="stylesheet">
         <script>
             console.log(999);
         </script>
@@ -21,9 +21,9 @@
                     </tr>
                 </thead>
                 <tr th:each="book: ${books}">
-                    <td th:text="${book.id}"></td>
-                    <td th:text="${book.name}"></td>
-                    <td th:text="${book.price}"></td>
+                    <td th:text="${book.id}">123</td>
+                    <td th:text="${book.name}">围城</td>
+                    <td th:text="${book.price}">321</td>
                     <td><a href="#"> 删除</a></td>
                 </tr>
             </table>
