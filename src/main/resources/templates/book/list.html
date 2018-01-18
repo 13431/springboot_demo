@@ -1,26 +1,24 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+
 <head>
-    <title th:text="#{site_title}"></title>
-    <meta charset="UTF-8">
-    <link th:href="@{/css/bootstrap.css}" href="../../static/css/bootstrap.css" rel="stylesheet">
+    <title>欢迎光临</title>
     <script>
-        console.log(999);
+        console.log('欢迎惯例');
     </script>
 </head>
 
-<body>
 
-<div class="container">
-    <h1 th:text="#{welcome}"></h1>
-
-    <table class="table table-dark table-striped table-hover">
+<div layout:fragment="content">
+    <table class="table table-hover">
         <thead>
         <tr>
-            <td>编号</td>
-            <td>书名</td>
-            <td>价格</td>
-            <td>操作</td>
+            <th>编号</th>
+            <th>书名</th>
+            <th>价格</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tr th:each="book: ${books}">
@@ -32,7 +30,5 @@
         </tr>
     </table>
 
-    <a th:href="@{/book/add}" class="btn btn-primary">添加书籍</a>
+    <a th:href="@{/book/add}" class="btn btn-dark mt-2 offset-sm-5 offset-lg-0">添加书籍</a>
 </div>
-</body>
-</html>

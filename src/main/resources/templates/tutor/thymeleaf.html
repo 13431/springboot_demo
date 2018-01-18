@@ -16,6 +16,19 @@
 </head>
 <body>
 
+<div th:text="${#strings.length(country)}">我的国</div>
+<div th:text="${#dates.format(now, 'yyyy 年 MM 月 dd 日~~~')}">现在</div>
+<div th:text="${#request.getSession().getValue('xxx')}"></div>
+
+<hr>
+
+<div th:switch="${age}">
+    <p th:case="29">奔三</p>
+    <p th:case="*">其他年龄</p>
+</div>
+
+<hr>
+
 <ul th:each="book : ${books}">
     <li th:class="${bookStat.even ? 'eee' : 'ddd'}">
         我的书籍: [(${book.name})], 它的价格 [[${book.price}]].
@@ -25,7 +38,9 @@
 
 <hr>
 <ul th:each="book : ${books}">
-   <li th:class="${bookStat.even ? 'eee' : 'ddd'}"
+   <li th:style="'color: ' + ${book.price>1000 ? 'green' : 'yellow'}"
+       th:if="${book.price > 100}"
+       th:class="${bookStat.even ? 'eee' : 'ddd'}"
        th:text="${bookStat.index+1} + '/' + ${bookStat.size} + '.   ' + ${book.name} + ' : ' + ${book.price}">书籍</li>
 </ul>
 

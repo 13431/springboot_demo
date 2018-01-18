@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Date;
+
 @Controller
 @RequestMapping("/tutor")
 public class TutorController {
@@ -19,6 +21,9 @@ public class TutorController {
     public String thymeleafTutor (Model model) {
         Iterable<Book> books = bookDAO.findAll();
         model.addAttribute("books", books);
+        model.addAttribute("age", 29);
+        model.addAttribute("country", "中华人民共和国万岁");
+        model.addAttribute("now", new Date());
         return "tutor/thymeleaf";
     }
 }
