@@ -1,27 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/layout">
+      layout:decorate="layout/book">
+<head>
+    <title>书籍添加</title>
+</head>
 
 <div layout:fragment="content">
-    <form th:action="@{/book/store}" method="post">
+    <form th:action="@{/book/add}" method="post" th:object="${book}">
         <div class="form-group">
-            <label for="name">书名</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="书名，不能为空"></input>
+            <label for="name">名字</label>
+            <input class="form-control" id="name" th:field="*{name}" th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
         </div>
         <div class="form-group">
             <label for="price">价格</label>
-            <input type="number" class="form-control" id="price" name="price" placeholder="价格"></input>
+            <input type="number" class="form-control" id="price" th:field="*{price}" th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
         </div>
-        <button type="submit" class="btn btn-dark mt-3 float-right">添加</button>
+        <div class="form-group">
+            <label for="author">作者</label>
+            <select class="form-control" id="author" th:field="*{author}" th:errorclass="is-invalid">
+                <option value="-1">请选择</option>
+                <option th:each="author : ${authors}"
+                        th:value="${author.id}"
+                        th:text="${author.name}">作者</option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">保存书籍</button>
     </form>
 </div>
 
-<div layout:fragment="help">
-    <p>- 名字不能为空</p>
-    <p>- 名字不能带空格</p>
-    <p>- 名字不能带英文</p>
-    <p>- 名字不能带韩文</p>
-    <p>- 名字不能带日文</p>
-</div>
+</html>

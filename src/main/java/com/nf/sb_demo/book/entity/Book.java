@@ -1,8 +1,12 @@
-package com.nf.sb_demo.entity;
+package com.nf.sb_demo.book.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Book {
@@ -11,9 +15,15 @@ public class Book {
     @GeneratedValue
     private Long id;
 
+    @Size(min = 2, max = 9)
     private String name;
 
+    @NotNull(message = "怎么，你想免费给别人发书？太高尚了，赞")
+    @Min(value = 10, message = "要想多赚钱，心要狠，价要高")
     private Float price;
+
+    @ManyToOne
+    private Author author;
 
     public Long getId() {
         return id;
@@ -39,11 +49,11 @@ public class Book {
         this.price = price;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }

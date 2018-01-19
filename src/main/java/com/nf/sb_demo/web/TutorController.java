@@ -1,8 +1,8 @@
 package com.nf.sb_demo.web;
 
 
-import com.nf.sb_demo.dao.BookDAO;
-import com.nf.sb_demo.entity.Book;
+import com.nf.sb_demo.book.dao.BookDAO;
+import com.nf.sb_demo.book.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ public class TutorController {
     private BookDAO bookDAO;
 
     @GetMapping("/thymeleaf")
-    public String thymeleafTutor (Model model) {
+    public String thymeleafTutor(Model model) {
         Iterable<Book> books = bookDAO.findAll();
         model.addAttribute("books", books);
         model.addAttribute("age", 29);
