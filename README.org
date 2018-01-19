@@ -85,3 +85,58 @@
 ** 为 Book 模块创建 Thymeleaf 模板 Layout
 - 首先，在 resource 目录下面创建资源文件 =messages.properties=
 - 在资源文件里面，添加要使用的公共参数
+- 创建公共布局文件 =layout/book.html=
+
+** Book 增加功能示例
+- 在 BookController 里面创建两个方法 add/save 分别用来呈现添加的 form 表单还有处理 form 请求
+  #+BEGIN_SRC java
+    @GetMapping("/add")
+    public String add(Model model) {
+        model.addAttribute("authors", authorDAO.findAll());
+        return "book/add";
+    }
+
+    @PostMapping("/add")
+    public String save(Book book, Model model) {
+        bookDAO.save(book);
+        return "redirect:index";
+    }
+  #+END_SRC
+- 为新增书籍创建 form 表单页面，使用我们定义的 layout 扩展
+  #+BEGIN_SRC html
+    <!DOCTYPE html>
+    <html lang="en"
+          xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="layout/book">
+    <head>
+        <title>书籍添加</title>
+    </head>
+
+    <div layout:fragment="content">
+        <form th:action="@{/book/add}" method="post">
+            <div class="form-group">
+                <label for="name">名字</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="price">价格</label>
+                <input type="number" class="form-control" id="price" name="price">
+            </div>
+            <div class="form-group">
+                <label for="author">作者</label>
+                <select class="form-control" id="author" name="author.id">
+                    <option value="-1">请选择</option>
+                    <option th:each="author : ${authors}"
+                            th:value="${author.id}"
+                            th:text="${author.name}">作者</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    </html>
+  #+END_SRC
+- 其他
