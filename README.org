@@ -1,15 +1,15 @@
 #+TITLE: Springboot
 
 
-* 教你用一步一步做项目
+* 教你用 Springboot 一步一步做项目
 ** 打开 Intellij Idea 编辑器
-** 创建一个项目
-- Create New Project
-- 选择左侧的 Spring Initializr
-- 在右边，选择 从 https://start.spring.io 创建，点击 Next
-- 在接下来的页面中，填写相关信息，比如 组/项目名，并且要指定创建 =Gradle= 项目，点击下一步
-- 在这个页面中，添加我们项目中需要用到的 Spring 插件，一般来说，Web/Jpa/Thymeleaf/MySQL，点击下一步
-- 然后，填写项目名字，指定保存目录，点击完成，引入 Gradle 就可以了。
+** 创建一个新项目
+- 点击 =Create New Project=
+- 选择左侧的 =Spring Initializr=
+- 在右边，选择 default 从 https://start.spring.io 创建，点击 Next
+- 在接下来的页面中，填写相关信息，比如 *组/项目名*, 指定创建 =Gradle= 项目，点击 Next
+- 在这个页面中，添加我们项目中需要用到的 Spring 插件，一般来说 =Web/Jpa/Thymeleaf/MySQL= 点击 Next
+- 然后，填写项目名字，指定保存目录，点击 Finish，确认初始化 Gradle 项目就可以了。
 
 ** 配置我们的 Springboot 参数
 - 修改配置我们的 =build.gradle= 然后刷新
@@ -18,47 +18,45 @@
   : ext['thymeleaf-layout-dialect.version'] = '2.2.2'
 - 在 =application.properties= 修改基础参数
   : server.port=6666
-  :
   : spring.datasource.url=jdbc:mysql://localhost:3306/another_springboot_db
   : spring.datasource.username=root
   : spring.datasource.password=root
   : spring.datasource.driver-class-name=com.mysql.jdbc.Driver
-  :
   : spring.jpa.show-sql=true
   : spring.jpa.hibernate.ddl-auto=update
-  :
   : spring.thymeleaf.mode=html
   : spring.thymeleaf.cache=false
 - 开启 MySQL 服务, 在 MySQL 中创建相关的数据库
   : create database another_springboot_db
 - 开启我们的服务器
+  : localhost:6666
 
-** 创建我们的 Book 模块, 在里面分别创建 model/dao/controller
-- 创建 model/Book.java
+** 创建 Book 模块, 在里面分别创建 entity/dao/controller
+- 创建 model/Author.java
   #+BEGIN_SRC java
     @Entity
-    public class Book {
-            @Id
-            @GeneratedValue
-            private Long id;
+    public class Author {
+        @Id
+        @GeneratedValue
+        private Long id;
 
-            private String name;
+        private String name;
 
-            private Float price;
+        private String telephone;
 
-            @ManyToOne
-            private Author author;
+        @OneToMany(mappedBy = "author")
+        private List<Book> books;
 
-            //...
+        //...
     }
   #+END_SRC
-- 创建 model/Author.java
-- 创建 dao/BookDAO.java
+- 创建 model/Book.java
 - 创建 dao/AuthorDAO.java
   #+BEGIN_SRC java
     public interface AuthorDAO extends JpaRepository<Author, Long> {
     }
   #+END_SRC
+- 创建 dao/BookDAO.java
 - 创建 web/AuthorController.java
   #+BEGIN_SRC java
     @Controller
