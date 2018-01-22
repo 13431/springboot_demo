@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/book">
+<head>
+    <title>作者添加</title>
+</head>
+
+<div layout:fragment="content">
+    <form th:action="@{/author/add}" th:object="${author}" method="post">
+        <div class="row" th:if="${#fields.hasErrors()}">
+            <div th:errors="*">错误哦</div>
+        </div>
+        <div class="form-row">
+            <input type="text" class="form-control col mr-2" placeholder="作者名称" name="name">
+            <input type="text" class="form-control col mr-2" placeholder="电话号码" name="telephone">
+            <button class="btn btn-dark col">提交</button>
+        </div>
+    </form>
+</div>
+
+</html>
