@@ -6,7 +6,7 @@ import com.nf.sb_demo.book.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +36,7 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public String save(@Valid Book book, BindingResult errors, Model model) {
+    public String save(@Valid Book book, Errors errors, Model model) {
         if (book.getAuthor() == null || book.getAuthor().getId() < 1) {
             errors.rejectValue("author", null, "您需要填写作者的信息哦!");
         }
