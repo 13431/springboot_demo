@@ -1,5 +1,7 @@
 package com.nf.sb_demo.book.entity;
 
+import com.nf.sb_demo.book.validator.Xuehao;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ public class Book {
     private Long id;
 
     @Size(min = 2, max = 9)
+    @Xuehao
     private String name;
 
     @NotNull(message = "怎么，你想免费给别人发书？太高尚了，赞")

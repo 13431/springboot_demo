@@ -8,7 +8,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index() {
-        return "redirect:/book/list";
+        return "redirect:/book/index";
     }
 
 }
