@@ -49,4 +49,27 @@ public class BookController {
     }
 
 
+    @GetMapping("/delete")
+    public String deleteBook(Long id){
+        bookDAO.delete(id);
+        return "redirect:index";
+    }
+
+    @GetMapping("/update")
+    public String toEdie(Model model,Long id){
+        Book book=bookDAO.getBooksById(id);
+        model.addAttribute("book",book);
+        model.addAttribute("authors",authorDAO.findAll());
+        return "book/update";
+    }
+
+    @PostMapping("/update")
+    public String edit(Book book){
+        System.out.println("sdfsad");
+        bookDAO.save(book);
+        return "redirect:index";
+    }
+
+
+
 }

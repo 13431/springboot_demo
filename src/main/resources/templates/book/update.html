@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/book">
+<head>
+    <title>更改书籍</title>
+</head>
+
+<div layout:fragment="content">
+    <form th:action="@{/book/update}" method="post" th:object="${book}">
+        <div class="form-group" style="display: none">
+            <label for="id">id</label>
+            <input type="text" class="form-control" id="id" name="id" th:value="*{id}">
+        </div>
+        <div class="form-group">
+            <label for="name">名字</label>
+            <input type="text" class="form-control" id="name" name="name" th:value="*{name}">
+        </div>
+        <div class="form-group">
+            <label for="price">价格</label>
+            <input type="number" class="form-control" id="price" name="price" th:value="*{price}">
+        </div>
+        <div class="form-group">
+            <label for="author">作者</label>
+            <select class="form-control" id="author" name="author.id">
+                <option value="-1">请选择</option>
+                <option th:each="author : ${authors}"
+                        th:value="${author.id}"
+                        th:text="${author.name}">作者</option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">保存书籍</button>
+    </form>
+</div>
+
+</html>

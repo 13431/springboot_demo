@@ -37,6 +37,6 @@ public class AuthorController {
             return "author/add";
         }
         authorDAO.save(author);
-        return "redirect:/author/add";
+        return "redirect:../book/index";
     }
 }

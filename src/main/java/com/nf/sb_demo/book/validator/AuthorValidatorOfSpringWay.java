@@ -21,7 +21,7 @@ public class AuthorValidatorOfSpringWay implements Validator {
         }
 
         if(!Pattern.matches("1[345678][0-9]{9}", author.getTelephone())) {
-            errors.rejectValue("telephone", null, "电话号的格式化或或或或不争取。");
+            errors.rejectValue("telephone", null, "电话号的格式不正确。");
         }
     }
 }
