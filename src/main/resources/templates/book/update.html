@@ -24,7 +24,7 @@
         <div class="form-group">
             <label for="author">作者</label>
             <select class="form-control" id="author" name="author.id">
-                <option value="-1">请选择</option>
+                <option th:value="${book.author.id}" th:text="${book.author.name}">请选择</option>
                 <option th:each="author : ${authors}"
                         th:value="${author.id}"
                         th:text="${author.name}">作者</option>
@@ -32,7 +32,7 @@
             <div class="invalid-feedback" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
         </div>
 
-        <button type="submit" class="btn btn-primary">保存书籍</button>
+        <button type="submit" class="btn btn-dark">保存更改</button>
     </form>
 </div>
 
