@@ -40,12 +40,15 @@ public class AuthorController {
     }
 
     @PostMapping("/add")
-    public String store(@Valid Author author, BindingResult result) {
+    public String store(@Valid Author author,
+                        BindingResult result,
+                        RedirectAttributesModelMap flash) {
         if(result.hasErrors()) {
             return "author/add";
         }
         authorDAO.save(author);
-        return "redirect:../book/index";
+        flash.addFlashAttribute("msg", "签约成功!");
+        return "redirect:index";
     }
 
     @GetMapping("/delete")
