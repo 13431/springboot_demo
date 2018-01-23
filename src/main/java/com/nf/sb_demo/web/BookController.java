@@ -39,35 +39,41 @@ public class BookController {
 
     @PostMapping("/add")
     public String save(@Valid Book book, Errors errors, RedirectAttributesModelMap flash, Model model) {
-        if(invalidBook(book, errors, model)) {
+        if (invalidBook(book, errors, model)) {
             return "book/add";
         }
+
         bookDAO.save(book);
+
         flash.addFlashAttribute("msg", "保存成功!");
         flash.addFlashAttribute("msgType", "success");
+
         return "redirect:index";
     }
 
 
     @GetMapping("/delete")
-    public String deleteBook(Long id){
+    public String deleteBook(Long id) {
         bookDAO.delete(id);
         return "redirect:index";
     }
 
     @GetMapping("/update")
-    public String toEdie(Model model,Long id){
-        model.addAttribute("book",bookDAO.getOne(id));
-        model.addAttribute("authors",authorDAO.findAll());
+    public String toEdie(Model model, Long id) {
+        model.addAttribute("book", bookDAO.getOne(id));
+        model.addAttribute("authors", authorDAO.findAll());
         return "book/update";
     }
 
     @PostMapping("/update")
-    public String edit(@Valid Book book, BindingResult result, Model model) {
-        if(invalidBook(book, result, model)) {
+    public String edit(@Valid Book book, BindingResult result, Model model, RedirectAttributesModelMap flash) {
+        if (invalidBook(book, result, model)) {
             return "book/update";
         }
+
         bookDAO.save(book);
+
+        flash.addFlashAttribute("msg", "保存成功!");
         return "redirect:index";
     }
 
@@ -75,8 +81,8 @@ public class BookController {
         if (book.getAuthor() == null || book.getAuthor().getId() < 1) {
             result.rejectValue("author", null, "您需要填写作者的信息哦!");
         }
-        if(result.hasErrors()) {
-            model.addAttribute("authors",authorDAO.findAll());
+        if (result.hasErrors()) {
+            model.addAttribute("authors", authorDAO.findAll());
         }
         return result.hasErrors();
     }
