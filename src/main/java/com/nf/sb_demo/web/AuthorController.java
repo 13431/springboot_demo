@@ -5,12 +5,14 @@ import com.nf.sb_demo.book.entity.Author;
 import com.nf.sb_demo.book.validator.AuthorValidatorOfSpringWay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.validation.Valid;
 
@@ -26,6 +28,12 @@ public class AuthorController {
         binder.addValidators(new AuthorValidatorOfSpringWay());
     }
 
+    @GetMapping("/index")
+    public String list(Model model) {
+        model.addAttribute("authors", authorDAO.findAll());
+        return "author/index";
+    }
+
     @GetMapping("/add")
     public String add(Author author) {
         return "author/add";
@@ -38,5 +46,12 @@ public class AuthorController {
         }
         authorDAO.save(author);
         return "redirect:../book/index";
+    }
+
+    @GetMapping("/delete")
+    public String deleteBook(Long id, RedirectAttributesModelMap flash) {
+        authorDAO.delete(id);
+        flash.addFlashAttribute("msg", "删除成功!");
+        return "redirect:index";
     }
 }
