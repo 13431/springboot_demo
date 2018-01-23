@@ -6,10 +6,12 @@ import com.nf.sb_demo.book.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.validation.Valid;
 
@@ -36,15 +38,13 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public String save(@Valid Book book, Errors errors, Model model) {
-        if (book.getAuthor() == null || book.getAuthor().getId() < 1) {
-            errors.rejectValue("author", null, "您需要填写作者的信息哦!");
-        }
-        if (errors.hasErrors()) {
-            model.addAttribute("authors", authorDAO.findAll());
+    public String save(@Valid Book book, Errors errors, RedirectAttributesModelMap flash, Model model) {
+        if(invalidBook(book, errors, model)) {
             return "book/add";
         }
         bookDAO.save(book);
+        flash.addFlashAttribute("msg", "保存成功!");
+        flash.addFlashAttribute("msgType", "success");
         return "redirect:index";
     }
 
@@ -57,19 +57,28 @@ public class BookController {
 
     @GetMapping("/update")
     public String toEdie(Model model,Long id){
-        Book book=bookDAO.getBooksById(id);
-        model.addAttribute("book",book);
+        model.addAttribute("book",bookDAO.getOne(id));
         model.addAttribute("authors",authorDAO.findAll());
         return "book/update";
     }
 
     @PostMapping("/update")
-    public String edit(Book book){
-        System.out.println("sdfsad");
+    public String edit(@Valid Book book, BindingResult result, Model model) {
+        if(invalidBook(book, result, model)) {
+            return "book/update";
+        }
         bookDAO.save(book);
         return "redirect:index";
     }
 
-
+    private boolean invalidBook(Book book, Errors result, Model model) {
+        if (book.getAuthor() == null || book.getAuthor().getId() < 1) {
+            result.rejectValue("author", null, "您需要填写作者的信息哦!");
+        }
+        if(result.hasErrors()) {
+            model.addAttribute("authors",authorDAO.findAll());
+        }
+        return result.hasErrors();
+    }
 
 }
