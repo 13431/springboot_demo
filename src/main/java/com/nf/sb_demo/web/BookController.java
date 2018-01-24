@@ -53,8 +53,9 @@ public class BookController {
 
 
     @GetMapping("/delete")
-    public String deleteBook(Long id) {
+    public String deleteBook(Long id, RedirectAttributesModelMap flash) {
         bookDAO.delete(id);
+        flash.addFlashAttribute("msg", "删除成功!");
         return "redirect:index";
     }
 
