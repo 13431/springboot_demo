@@ -5,14 +5,16 @@ import com.nf.sb_demo.sms.utils.CommonUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -20,45 +22,44 @@ import java.util.List;
 
 @Service
 public class MeiShengSMSServiceImpl implements SMSService {
-
-    static String HttpUrl = "http://api.rcscloud.cn:8030/rcsapi/rest";
-    static String ACCOUNT_SID = "ZH000000540";
-    static String ACCOUNT_APIKEY = "a85f409e-cf61-4d3f-a107-559bed41873c";
-    static final String CHARSET_UTF8 = "utf-8";
-    static String extno = "222";
+    // 将参数写在配置文件中
+    @Value("${sms.meisheng.url}")
+    String httpUrl;
+    @Value("${sms.meisheng.sid}")
+    String accountSid;
+    @Value("${sms.meisheng.apikey}")
+    String accountApikey;
+    @Value("${sms.meisheng.extno}")
+    String extno;
+    @Value("${sms.meisheng.encode}")
+    String encoding = "utf-8";
 
     @Override
     public String sendSMS(String to, String what, int templateNo) {
         String resultJson = "";
-        HttpClient httpClient = null;
+        CloseableHttpClient httpClient = null;
         try {
-            // 构造发送的内容
-            HttpPost sms = new HttpPost(HttpUrl + "/sms/sendtplsms.json");
+            // 第一步、构造发送的内容
+            HttpPost sms = new HttpPost(httpUrl + "/sms/sendtplsms.json");
             sms.setHeader("Content-Type", "application/x-www-form-urlencoded");
-            sms.setHeader("Content-Encoding", CHARSET_UTF8);
+            sms.setHeader("Content-Encoding", encoding);
             List<NameValuePair> nvps = Arrays.asList(
-                    new BasicNameValuePair("sid", ACCOUNT_SID),
-                    new BasicNameValuePair("sign", encrypt(ACCOUNT_SID + ACCOUNT_APIKEY + templateNo + to + what)),
+                    new BasicNameValuePair("sid", accountSid),
+                    new BasicNameValuePair("sign", encrypt(accountSid + accountApikey + templateNo + to + what)),
                     new BasicNameValuePair("extno", extno),
-                    new BasicNameValuePair("tplid", templateNo + ""),
                     new BasicNameValuePair("mobile", to),
-                    new BasicNameValuePair("content", what));
-            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(nvps, CHARSET_UTF8);
+                    new BasicNameValuePair("content", what),
+                    new BasicNameValuePair("tplid", templateNo + ""));
+            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(nvps, encoding);
             sms.setEntity(entity);
 
-
-            // 通过httpclient发送信息出去
-            // 1. 创建客户端
+            // 第二步、通过 httpclient 发送信息出去
             httpClient = HttpClientBuilder.create().build();
-            // 2. 发送内容，得到返回
             HttpResponse response = httpClient.execute(sms);
+
+            // 第三步、得到并处理返回结果
             HttpEntity httpEntity = response.getEntity();
-
-
-            //返回JSON字符串格式，用户根据实际业务进行解析处理
-            if (httpEntity != null) {
-                resultJson = EntityUtils.toString(httpEntity, CHARSET_UTF8);
-            }
+            resultJson = EntityUtils.toString(httpEntity, encoding);
 
             EntityUtils.consume(entity);
 
@@ -66,7 +67,11 @@ public class MeiShengSMSServiceImpl implements SMSService {
             e.printStackTrace();
         } finally {
             if (httpClient != null) {
-                httpClient.getConnectionManager().shutdown();
+                try {
+                    httpClient.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return resultJson;
@@ -78,6 +83,6 @@ public class MeiShengSMSServiceImpl implements SMSService {
     }
 
     private String encrypt(String msg) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        return CommonUtils.md5Digest(CommonUtils.changeCharset(msg, CHARSET_UTF8), CHARSET_UTF8);
+        return CommonUtils.md5Digest(CommonUtils.changeCharset(msg, encoding), encoding);
     }
 }
