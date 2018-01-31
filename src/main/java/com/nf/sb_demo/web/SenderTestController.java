@@ -1,17 +1,17 @@
-package com.nf.sb_demo.mail;
+package com.nf.sb_demo.web;
 
-import com.nf.sb_demo.mail.service.MailService;
+import com.nf.sb_demo.service.Sender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class TestController {
+public class SenderTestController {
 
     @Autowired
-    private MailService mailService;
+    private Sender sender;
 
     public String test () {
-        mailService.sendSimple("xxx@qq.com", "你吃了吗");
+        sender.send("xxx@qq.com", "你吃了吗");
         return null;
     }
 }

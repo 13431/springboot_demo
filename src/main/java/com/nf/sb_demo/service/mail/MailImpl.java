@@ -1,18 +1,17 @@
-package com.nf.sb_demo.mail.service;
+package com.nf.sb_demo.service.mail;
 
+import com.nf.sb_demo.service.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.stereotype.Service;
 
-@Service
-public class MailServiceImpl implements MailService {
+public class MailImpl implements Mail {
 
     @Autowired
     private MailSender mailSender;
 
     @Override
-    public String sendSimple(String to, String what) {
+    public String send(String to, String what, String type) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject("主题，就是邮件的标题");
         message.setText(what);
@@ -24,7 +23,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public String sendComlex(String to, String what) {
+    public String send(String to, String what) {
         return null;
     }
 }

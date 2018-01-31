@@ -1,17 +1,19 @@
-package com.nf.sb_demo.sms.utils;
+package com.nf.sb_demo.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class CommonUtils {
+public class Commons {
+
+
     /**
      * MD5算法
+     *
      * @param src
      * @return
      * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException
-     * String
+     * @throws UnsupportedEncodingException String
      */
     public static String md5Digest(String src, String charset) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -19,7 +21,7 @@ public class CommonUtils {
         return byte2HexStr(b);
     }
 
-    private static String byte2HexStr(byte[] b){
+    private static String byte2HexStr(byte[] b) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < b.length; ++i) {
             String s = Integer.toHexString(b[i] & 0xFF);
@@ -33,11 +35,11 @@ public class CommonUtils {
 
     /**
      * 字符编码转换
+     *
      * @param str
      * @param newCharset
      * @return
-     * @throws UnsupportedEncodingException
-     * String
+     * @throws UnsupportedEncodingException String
      */
     public static String changeCharset(String str, String newCharset)
             throws UnsupportedEncodingException {

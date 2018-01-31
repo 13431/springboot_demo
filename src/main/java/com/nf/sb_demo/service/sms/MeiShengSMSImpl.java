@@ -1,7 +1,8 @@
-package com.nf.sb_demo.sms.service;
+package com.nf.sb_demo.service.sms;
 
 
-import com.nf.sb_demo.sms.utils.CommonUtils;
+import com.nf.sb_demo.service.SMS;
+import com.nf.sb_demo.utils.Commons;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -21,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class MeiShengSMSServiceImpl implements SMSService {
+public class MeiShengSMSImpl implements SMS {
     // 将参数写在配置文件中
     @Value("${sms.meisheng.url}")
     String httpUrl;
@@ -35,7 +36,7 @@ public class MeiShengSMSServiceImpl implements SMSService {
     String encoding = "utf-8";
 
     @Override
-    public String sendSMS(String to, String what, int templateNo) {
+    public String send(String to, String what, int templateNo) {
         String resultJson = "";
         CloseableHttpClient httpClient = null;
         try {
@@ -78,11 +79,11 @@ public class MeiShengSMSServiceImpl implements SMSService {
     }
 
     @Override
-    public String sendSMS(String to, String what) {
-        return sendSMS(to, what, 9);
+    public String send(String to, String what) {
+        return send(to, what, 9);
     }
 
     private String encrypt(String msg) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        return CommonUtils.md5Digest(CommonUtils.changeCharset(msg, encoding), encoding);
+        return Commons.md5Digest(Commons.changeCharset(msg, encoding), encoding);
     }
 }

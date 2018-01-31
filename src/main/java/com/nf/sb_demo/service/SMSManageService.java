@@ -1,4 +1,4 @@
-package com.nf.sb_demo.sms.service;
+package com.nf.sb_demo.service;
 
 public interface SMSManageService {
     public void addTemplate();
