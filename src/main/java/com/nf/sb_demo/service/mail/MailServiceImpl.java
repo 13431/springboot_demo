@@ -1,11 +1,11 @@
 package com.nf.sb_demo.service.mail;
 
-import com.nf.sb_demo.service.Mail;
+import com.nf.sb_demo.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
-public class MailImpl implements Mail {
+public class MailServiceImpl implements MailService {
 
     @Autowired
     private MailSender mailSender;

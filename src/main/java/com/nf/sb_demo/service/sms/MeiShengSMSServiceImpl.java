@@ -1,7 +1,7 @@
 package com.nf.sb_demo.service.sms;
 
 
-import com.nf.sb_demo.service.SMS;
+import com.nf.sb_demo.service.SMSService;
 import com.nf.sb_demo.utils.Commons;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class MeiShengSMSImpl implements SMS {
+public class MeiShengSMSServiceImpl implements SMSService {
     // 将参数写在配置文件中
     @Value("${sms.meisheng.url}")
     String httpUrl;
