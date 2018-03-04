@@ -1,6 +1,8 @@
 package com.nf.sb_demo.book.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,6 +20,7 @@ public class Author {
     private String telephone;
 
     @OneToMany(mappedBy = "author")
+    @JsonIgnore
     private List<Book> books;
 
     public Long getId() {

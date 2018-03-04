@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.16.0/axios.min.js"></script>
+</head>
+<body>
+
+哈哈哈，我是vue demo
+<div id="app">
+    <table>
+        <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>价格</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="(book,index) in books">
+            <td>{{book.id}}</td>
+            <td>{{book.name}}</td>
+            <td>{{book.price}}</td>
+            <td>
+                <button @click="del(book.id)">删除</button>
+                <button @click="update(book)">更新</button>
+            </td>
+        </tr>
+    </table>
+
+    <fieldset style="width: 30%">
+        <legend>书籍管理</legend>
+        <p>名称：<input v-model="book.name" ></p>
+        <p>价格：<input v-model="book.price" ></p>
+        <p><button @click="add">添加</button></p>
+    </fieldset>
+
+</div>
+<script>
+    var app=new Vue({
+        el:"#app",
+        data:{
+            books:[],
+            book:{name:"",price:""}
+        },
+        created:function () {
+          this.get();
+        },
+        methods:{
+            get:function () {
+                axios.get("http://localhost:7777/vuex")
+                .then(function (res) {
+                    app.books=res.data
+                }).catch(function(){
+                    console.log("获取失败")
+                })
+            },
+            del:function (id) {
+                axios.get("http://localhost:7777/del/"+id)
+                    .then(function () {
+                        app.get()
+                    }).catch(function(){
+                    console.log("获取失败")
+                })
+            },
+            add:function () {
+                axios.post("http://localhost:7777/add",app.book)
+                    .then(function () {
+                        app.get()
+                    }).catch(function(){
+                    console.log("添加失败")
+                })
+            },
+            update:function (b) {
+                app.book=b;
+            }
+        }
+    })
+</script>
+</body>
+</html>
