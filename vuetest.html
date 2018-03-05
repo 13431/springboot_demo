@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>vue 测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <!-- 视图 -->
+    <div id="app">
+        {{welcome}} . {{name}}
+    </div>
+
+    <div id="ppa" style="color: red;">
+        <p v-bind:title="hello">{{welcome}}</p>
+        <p>{{name}}</p>
+        <p v-if="cond">{{message}}</p>
+        <p v-for="todo in todos">
+            {{todo.text}}
+        </p>
+
+        <input v-model="message">
+        <button v-on:click="reverseMessage">hello</button>
+    </div>
+
+
+    <!-- 数据节点 -->
+    <script>
+
+     var a = new Vue({
+         el: '#ppa',
+         data: {
+             welcome: "欢迎您使用 vue",
+             name: "中华人民共和国",
+             hello: "我是一个标题，我会用来绑定到页面",
+             message: '页面加载于 ' + new Date().toLocaleString(),
+             cond: true,
+             todos: [
+                 { text: '学习 JavaScript' },
+                 { text: '学习 Vue' },
+                 { text: '装备简历' }
+             ]
+         },
+         methods: {
+             reverseMessage: function () {
+                 // this 指的是 vue 对象
+                 this.name = this.name.split('').reverse().join('')
+             }
+         }
+     });
+
+     a.reverseMessage();
+
+    </script>
+
+
+</body>
+</html>
