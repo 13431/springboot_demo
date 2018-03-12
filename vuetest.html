@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <title>vue 测试</title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="vueComponent.js"></script>
 </head>
 <body>
     <!-- 视图 -->
@@ -12,21 +13,34 @@
     </div>
 
     <div id="ppa" style="color: red;">
-        <p v-bind:title="hello">{{welcome}}</p>
         <p>{{name}}</p>
+        <p v-bind:title="hello">{{welcome}}</p>
         <p v-if="cond">{{message}}</p>
-        <p v-for="todo in todos">
-            {{todo.text}}
-        </p>
+        <ul>
+            <li v-for="todo in todos">
+                {{todo.text}}
+            </li>
+        </ul>
 
-        <input v-model="message">
+        <input v-model="name">
         <button v-on:click="reverseMessage">hello</button>
+
+        <my-table></my-table>
     </div>
+
+
+    <script>
+//     var name = "我是一个input";
+//     $("#myinput").val(name);
+//     $("#myinput").on("change", function() {
+//         name = $(this).val();
+//         $("#anothername").val(name);
+//     });
+    </script>
 
 
     <!-- 数据节点 -->
     <script>
-
      var a = new Vue({
          el: '#ppa',
          data: {
@@ -49,6 +63,7 @@
          }
      });
 
+     /* 外部调用 */
      a.reverseMessage();
 
     </script>

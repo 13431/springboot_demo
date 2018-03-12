@@ -158,3 +158,5 @@
 - 然后，一些更复杂，需要重用的校验逻辑，你可以:
   + 自定义 JSR 标准的校验注解和校验类
   + 自定义 Spring 的校验器
+* shiro
+https://waylau.com/apache-shiro-1.2.x-reference/I.%20Overview%20%E6%80%BB%E8%A7%88/1.%20Introduction%20%E4%BB%8B%E7%BB%8D.html
